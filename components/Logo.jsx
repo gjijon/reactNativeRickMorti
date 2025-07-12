@@ -1,5 +1,5 @@
 
-const Logo = ({ color = '#1199FF', ...props }) => (
+const Logo = ({ color = '#F3F2AA', ...props }) => (
   <svg
    width="100%"
    height="100%"

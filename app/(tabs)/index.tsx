@@ -1,78 +1,83 @@
 import { HelloWave } from '@/components/HelloWave';
+import Logo from '@/components/Logo';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Platform, StyleSheet } from 'react-native';
-// Importa tu componente de logo personalizado
-import Logo from '@/components/Logo';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
+  const router = useRouter();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://rickandmortyapi.com/api/character')
+      .then(res => res.json())
+      .then(json => { setData(json.results); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => router.push(`/detail/${item.id}`)}
+    >
+      <Image source={{ uri: item.image }} style={styles.avatar} />
+      <View style={styles.info}>
+        <ThemedText type="title" style={styles.name}>{item.name}</ThemedText>
+        <View style={styles.statusRow}>
+          <View style={[styles.statusDot, { backgroundColor: item.status === 'Alive' ? '#4caf50' : '#f44336' }]} />
+          <ThemedText type="default">{`${item.status} — ${item.species}`}</ThemedText>
+        </View>
+        <ThemedText type="default" style={styles.label}>Última ubicación:</ThemedText>
+        <ThemedText type="default" style={styles.text}>{item.location.name}</ThemedText>
+        <ThemedText type="default" style={styles.label}>Primera aparición:</ThemedText>
+        <ThemedText type="default" style={styles.text}>{item.episode[0].split('/').pop()}</ThemedText>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        // Reemplazamos el PNG por el componente Logo.jsx
-        <Logo style={styles.logo} />
-      }
+      headerImage={<Logo style={styles.logo} />}
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Hola!</ThemedText>
         <HelloWave />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
+      <ThemedView style={styles.subtitleContainer}>
+        <ThemedText type="subtitle">Personajes Rick and Morty</ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>
-          {` to get a fresh `}
-          <ThemedText type="defaultSemiBold">app</ThemedText>
-          {` directory. This will move the current `}
-          <ThemedText type="defaultSemiBold">app</ThemedText>
-          {` to `}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+
+      {loading ? (
+        <ActivityIndicator style={styles.loader} size="large" />
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={item => String(item.id)}
+          renderItem={renderItem}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  logo: {
-    // Ajusta el tamaño y posición según tu componente Logo
-    width: 290,
-    height: 178,
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-  },
+  logo: { width: 290, height: 178, position: 'absolute', left: 0, bottom: 0 },
+  titleContainer: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 16 },
+  subtitleContainer: { paddingHorizontal: 16, marginBottom: 8 },
+  loader: { marginTop: 20 },
+  list: { padding: 16 },
+  card: { flexDirection: 'row', backgroundColor: '#2c2f33', borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
+  avatar: { width: 100, height: 100 },
+  info: { flex: 1, padding: 12 },
+  name: { marginBottom: 4 },
+  statusRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
+  statusDot: { width: 10, height: 10, borderRadius: 5, marginRight: 6 },
+  label: { color: '#999', fontSize: 12, marginTop: 4 },
+  text: { fontSize: 14, color: '#ddd' },
 });
