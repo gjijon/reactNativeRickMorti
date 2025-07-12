@@ -38,7 +38,7 @@ export default function About() {
           <AntDesign name="tool" size={24} color="#444" />
           <Text style={styles.subtitle}>Tecnologías Utilizadas</Text>
         </View>
-        {['React Native', 'Expo Router', 'Rick and Morty API', 'React Native SVG', 'Redux for React Native'].map((tech, idx) => (
+        {['React Native', 'Expo Router', 'Rick and Morty API', 'React Native SVG'].map((tech, idx) => (
           <View key={idx} style={styles.techList}>
             <AntDesign name="checkcircleo" size={20} color="#666" />
             <Text style={styles.tech}>{tech}</Text>
