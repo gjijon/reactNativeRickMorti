@@ -67,17 +67,65 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  logo: { width: 290, height: 178, position: 'absolute', left: 0, bottom: 0 },
-  titleContainer: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 16 },
-  subtitleContainer: { paddingHorizontal: 16, marginBottom: 8 },
-  loader: { marginTop: 20 },
-  list: { padding: 16 },
-  card: { flexDirection: 'row', backgroundColor: '#2c2f33', borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
-  avatar: { width: 100, height: 100 },
-  info: { flex: 1, padding: 12 },
-  name: { marginBottom: 4 },
-  statusRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
-  statusDot: { width: 10, height: 10, borderRadius: 5, marginRight: 6 },
-  label: { color: '#999', fontSize: 12, marginTop: 4 },
-  text: { fontSize: 14, color: '#ddd' },
+  logo: {
+    width: 290,
+    height: 178,
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    padding: 16,
+  },
+  subtitleContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
+  loader: {
+    marginTop: 20,
+  },
+  list: {
+    padding: 16,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#2c2f33',
+    borderRadius: 8,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+  },
+  info: {
+    flex: 1,
+    padding: 12,
+  },
+  name: {
+    marginBottom: 4,
+  },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  statusDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 6,
+  },
+  label: {
+    color: '#999',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  text: {
+    fontSize: 14,
+    color: '#ddd',
+  },
 });

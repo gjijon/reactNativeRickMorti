@@ -1,9 +1,15 @@
 import { ThemedText } from '@/components/ThemedText';
-import { useLocalSearchParams } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+
+export const options = { title: 'Detalle' };
 
 export default function DetailScreen() {
+  const router = useRouter();
+  const navigation = useNavigation();
+  React.useEffect(() => { navigation.setOptions({ title: 'Detalle' }); }, [navigation]);
   const { id } = useLocalSearchParams();
   const [char, setChar] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,17 +34,40 @@ export default function DetailScreen() {
       <ThemedText>Origen: {char.origin.name}</ThemedText>
       <ThemedText>Ubicación: {char.location.name}</ThemedText>
       <ThemedText style={detailStyles.label}>Episodios:</ThemedText>
-      {char.episode.map(ep => (
-        <ThemedText key={ep}>Ep {ep.split('/').pop()}</ThemedText>
-      ))}
+      {char.episode.map(ep => {
+        const epId = ep.split('/').pop();
+        return (
+          <TouchableOpacity key={ep} onPress={() => router.push(`/episode/${epId}`)}>
+            <ThemedText>Ep {epId}</ThemedText>
+          </TouchableOpacity>
+        );
+      })}
     </ScrollView>
   );
 }
 
 const detailStyles = StyleSheet.create({
-  loader: { flex:1, justifyContent:'center', alignItems:'center', marginTop:20 },
-  container: { padding:16, alignItems:'center' },
-  image: { width:200, height:200, borderRadius:100, marginBottom:16 },
-  name: { marginBottom:8 },
-  label: { marginTop:12, fontWeight:'bold' }
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  container: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    marginBottom: 16,
+  },
+  name: {
+    marginBottom: 8,
+  },
+  label: {
+    marginTop: 12,
+    fontWeight: 'bold',
+  },
 });
