@@ -1,110 +1,129 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+// Importamos íconos de Ant Design de Expo Vector Icons
+import { AntDesign } from '@expo/vector-icons';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-
-export default function TabTwoScreen() {
+export default function About() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
+      <View style={styles.content}>
+        {/* Título principal */}
+        <Text style={styles.title}>Acerca de Rick y Morty App</Text>
+
+        {/* Sección: Sobre la Serie */}
+        <View style={styles.sectionHeader}>
+          <AntDesign name="book" size={24} color="#444" />
+          <Text style={styles.subtitle}>Sobre la Serie</Text>
+        </View>
+        <Text style={styles.text}>
+          "Rick y Morty" es una serie animada para adultos creada por Dan Harmon y Justin Roiland para Adult Swim.
+          Sigue las aventuras de Rick Sanchez, un científico excéntrico, y su nieto Morty Smith a través de universos paralelos y situaciones cómicas.
+        </Text>
+
+        {/* Sección: Sobre esta App */}
+        <View style={styles.sectionHeader}>
+          <AntDesign name="appstore-o" size={24} color="#444" />
+          <Text style={styles.subtitle}>Sobre esta App</Text>
+        </View>
+        <Text style={styles.text}>
+          Esta aplicación consume la API oficial de Rick y Morty para mostrar información detallada de personajes,
+          episodios y ubicaciones. Construida con React Native, Expo Router y prácticas modernas de desarrollo móvil.
+        </Text>
+
+        {/* Sección: Tecnologías Utilizadas */}
+        <View style={styles.sectionHeader}>
+          <AntDesign name="tool" size={24} color="#444" />
+          <Text style={styles.subtitle}>Tecnologías Utilizadas</Text>
+        </View>
+        {['React Native', 'Expo Router', 'Rick and Morty API', 'React Native SVG', 'Redux for React Native'].map((tech, idx) => (
+          <View key={idx} style={styles.techList}>
+            <AntDesign name="checkcircleo" size={20} color="#666" />
+            <Text style={styles.tech}>{tech}</Text>
+          </View>
+        ))}
+
+        {/* Sección: Contacto y Soporte */}
+        <View style={styles.sectionHeader}>
+          <AntDesign name="mail" size={24} color="#444" />
+          <Text style={styles.subtitle}>Contacto y Soporte</Text>
+        </View>
+        <Text style={styles.text}>
+          Para sugerencias, errores o consultas, escríbenos a:
+        </Text>
+        <TouchableOpacity onPress={() => Linking.openURL('mailto:soporte@rickymortyapp.com')}>
+          <View style={styles.contactRow}>
+            <AntDesign name="enviromento" size={20} color="#007aff" style={styles.techIcon} />
+            <Text style={styles.contactEmail}>soporte@rickymortyapp.com</Text>
+          </View>
+        </TouchableOpacity>
+
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  titleContainer: {
+  contentContainer: {
+    flexGrow: 1,
+    padding: 20,
+  },
+  content: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  sectionHeader: {
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#444',
+    marginLeft: 8,
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#666',
+    marginBottom: 15,
+    textAlign: 'justify',
+  },
+  techList: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  tech: {
+    fontSize: 16,
+    color: '#666',
+    marginLeft: 8,
+  },
+  contactRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  techIcon: {
+    marginRight: 8,
+  },
+  contactEmail: {
+    fontSize: 16,
+    color: '#007aff',
+    textDecorationLine: 'underline',
   },
 });
